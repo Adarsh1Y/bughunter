@@ -1,0 +1,33 @@
+{
+  "mode": "low_ram",
+  "max_targets": 3,
+  "max_input_size": 1500,
+  "max_payloads": 5,
+  "use_cache": true,
+  "cache_ttl_hours": 24,
+  "llm_timeout": 60,
+  "safe_execution": {
+    "max_requests_per_test": 10,
+    "max_multi_user_tests": 5,
+    "confirm_before_idor_test": true,
+    "confirm_before_multi_user": true,
+    "rate_limit_seconds": 1,
+    "dry_run_option": true
+  },
+  "llm_models": {
+    "analysis": "llama3.2:1b",
+    "strategy": "llama3.2:1b",
+    "report": "llama3.2:1b",
+    "response": "llama3.2:1b"
+  },
+  "low_ram": {
+    "reduce_payload_count": true,
+    "skip_heavy_analysis": true,
+    "cache_aggressive": true,
+    "max_response_size": 200
+  },
+  "logging": {
+    "level": "INFO",
+    "verbose": false
+  }
+}
