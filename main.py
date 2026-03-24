@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from core.cli import run_cli, run_auto_mode, run_focus_mode
+from core.cli import run_cli, run_auto_mode, run_focus_mode, run_retest_mode
 
 
 def parse_args():
@@ -20,6 +20,8 @@ Examples:
   python main.py              # Guided mode (interactive)
   python main.py --auto        # Auto mode (automatic)
   python main.py --focus      # Focus mode (top targets only)
+  python main.py --retest     # Quick retest mode
+  python main.py --retest "/api/user?id=1"  # Retest specific endpoint
   python main.py -a -f        # Auto + focus mode
         """
     )
@@ -37,6 +39,13 @@ Examples:
     )
     
     parser.add_argument(
+        '--retest', '-r',
+        nargs='?',
+        const=True,
+        help='Quick retest mode (optionally specify endpoint)'
+    )
+    
+    parser.add_argument(
         '--urls',
         nargs='*',
         help='URLs to analyze (instead of interactive input)'
@@ -49,7 +58,10 @@ def main():
     """Main entry point."""
     args = parse_args()
     
-    if args.auto:
+    if args.retest is not None:
+        endpoint = args.retest if isinstance(args.retest, str) else None
+        run_retest_mode(endpoint)
+    elif args.auto:
         run_auto_mode(urls=args.urls, focus=args.focus)
     elif args.focus:
         run_focus_mode(urls=args.urls)

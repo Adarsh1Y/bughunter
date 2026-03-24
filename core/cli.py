@@ -111,6 +111,7 @@ def print_menu():
     print(f"{Fore.WHITE}7.{Style.RESET_ALL} Run Full Pipeline")
     print(f"{Fore.WHITE}8.{Style.RESET_ALL} Load Last Session")
     print(f"{Fore.WHITE}9.{Style.RESET_ALL} Quick Test (Full Flow)")
+    print(f"{Fore.WHITE}A.{Style.RESET_ALL} Quick Retest (Fast)")
     print(f"{Fore.WHITE}0.{Style.RESET_ALL} Exit")
     print(f"{Fore.CYAN}{'-' * 50}{Style.RESET_ALL}")
 
@@ -415,12 +416,15 @@ def run_cli():
             elif choice == '9':
                 run_quick_test()
             
+            elif choice.lower() == 'a':
+                run_retest_mode()
+            
             elif choice == '0':
                 p_success("Goodbye!")
                 break
             
             else:
-                p_warn("Invalid option. Select 0-9.")
+                p_warn("Invalid option. Select 0-9 or A.")
         
         except KeyboardInterrupt:
             p_warn("Interrupted. Type '0' to exit.")
@@ -698,3 +702,56 @@ def run_quick_test():
     save_session(targets, selected, payloads, notes="Quick test session")
     p_success("Session saved")
     p_next_step("Send requests via Burp and verify results")
+
+
+def run_retest_mode(endpoint: str = None):
+    """
+    Quick retest mode - fast endpoint testing without full analysis.
+    
+    Args:
+        endpoint: Optional endpoint string (e.g., "/api/user?id=1").
+    """
+    print(BANNER)
+    print(f"\n{Fore.GREEN}{Style.BRIGHT}[*] QUICK RETEST MODE{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}Fast testing without full analysis{Style.RESET_ALL}")
+    
+    if not endpoint:
+        endpoint = get_input("\nEnter endpoint to retest (e.g., /api/user?id=1): ")
+    
+    if not endpoint:
+        p_error("No endpoint provided.")
+        return
+    
+    from urllib.parse import urlparse, parse_qs
+    from agents.fuzz import generate_payloads
+    from agents.request_builder import build_requests
+    
+    parsed = urlparse(endpoint if '://' in endpoint else f"http://example.com{endpoint}")
+    path = parsed.path
+    params = parse_qs(parsed.query)
+    
+    if not params:
+        param_name = get_input("Parameter name (default: id): ") or "id"
+        payloads = generate_payloads("IDOR", 3)
+    else:
+        param_name = list(params.keys())[0]
+        existing_values = params[param_name]
+        print(f"{Fore.CYAN}Detected parameter: {param_name} = {existing_values}{Style.RESET_ALL}")
+        payloads = generate_payloads("IDOR", 3)
+    
+    section("RETEST TARGET")
+    print(f"{Fore.WHITE}Endpoint:{Style.RESET_ALL} {path}")
+    print(f"{Fore.WHITE}Parameter:{Style.RESET_ALL} {param_name}")
+    
+    print(f"\n{Fore.CYAN}Payloads:{Style.RESET_ALL}")
+    for p in payloads:
+        print(f"  {Fore.YELLOW}•{Style.RESET_ALL} {p}")
+    
+    base_url = get_input("\nBase URL (default: https://target.com): ") or "https://target.com"
+    requests = build_requests(base_url, path, param_name, payloads)
+    
+    section("READY-TO-TEST REQUESTS")
+    print(format_requests(requests))
+    
+    print(f"\n{Fore.GREEN}[+] {len(requests)} requests ready for testing{Style.RESET_ALL}")
+    p_next_step("Copy requests to Burp Repeater and test")

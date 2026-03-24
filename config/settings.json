@@ -6,12 +6,13 @@
   "use_cache": true,
   "cache_ttl_hours": 24,
   "llm_timeout": 60,
+  "safe_mode": true,
   "safe_execution": {
-    "max_requests_per_test": 10,
-    "max_multi_user_tests": 5,
+    "max_requests": 5,
+    "delay_between_requests": 1.5,
+    "max_multi_user_tests": 3,
     "confirm_before_idor_test": true,
     "confirm_before_multi_user": true,
-    "rate_limit_seconds": 1,
     "dry_run_option": true
   },
   "llm_models": {
