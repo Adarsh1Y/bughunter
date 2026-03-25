@@ -70,8 +70,8 @@ def p_info(msg: str):
 
 
 def p_vuln(msg: str):
-    """Print vulnerability detected message."""
-    print(f"{Fore.RED}{Style.BRIGHT}[!] VULNERABILITY: {msg}{Style.RESET_ALL}")
+    """Print anomaly detected message."""
+    print(f"{Fore.RED}{Style.BRIGHT}[!] ANOMALY: {msg}{Style.RESET_ALL}")
 
 
 def section(title: str):

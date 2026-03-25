@@ -1,0 +1,5 @@
+[
+  {"url": "https://target.com/api/model/1/load?id=1", "method": "POST", "params": {"id": "1", "user_id": "1"}, "headers": {"authorization": "Bearer token"}},
+  {"url": "https://target.com/api/model/2/load?id=2", "method": "POST", "params": {"id": "2", "user_id": "2"}, "headers": {"authorization": "Bearer token"}},
+  {"url": "https://target.com/api/model/validate?file=test.txt", "method": "POST", "params": {"file": "test"}, "headers": {"authorization": "Bearer token"}}
+]
