@@ -82,22 +82,25 @@ def section(title: str):
 
 
 def p_target(target: dict, num: int = None):
-    """Print a target nicely."""
+    """Print a target nicely with honest status."""
     prefix = f"{num}. " if num else ""
     endpoint = target.get("endpoint", "unknown")
     vuln = target.get("vulnerability", "NONE")
     risk = target.get("risk", "low").upper()
-    confidence = target.get("confidence", 0)
+    score = target.get("score", 0)
 
     risk_color = Fore.RED if risk == "HIGH" else Fore.YELLOW if risk == "MEDIUM" else Fore.GREEN
 
     print(f"\n{prefix}{Fore.WHITE}{endpoint}{Style.RESET_ALL}")
-    print(f"     {Fore.CYAN}Vulnerability:{Style.RESET_ALL} {Fore.YELLOW}{vuln}{Style.RESET_ALL}")
+    print(f"     {Fore.CYAN}Status:{Style.RESET_ALL} {Fore.YELLOW}UNVERIFIED{Style.RESET_ALL}")
+    print(f"     {Fore.CYAN}Pattern:{Style.RESET_ALL} {vuln}")
     print(f"     {Fore.CYAN}Risk:{Style.RESET_ALL} {risk_color}{risk}{Style.RESET_ALL}")
-    print(f"     {Fore.CYAN}Confidence:{Style.RESET_ALL} {confidence:.0%}")
+    print(f"     {Fore.CYAN}Score:{Style.RESET_ALL} {score}")
 
     if target.get("reason"):
-        print(f"     {Fore.CYAN}Reason:{Style.RESET_ALL} {target.get('reason')}")
+        print(f"     {Fore.CYAN}Pattern Match:{Style.RESET_ALL} {target.get('reason')}")
+
+    print(f"\n     {Fore.YELLOW}Manual verification required before confirming{Style.RESET_ALL}")
 
 
 def p_payloads(payloads: list):
@@ -109,20 +112,20 @@ def p_payloads(payloads: list):
 
 def print_test_plan(target: dict, payloads: list, requests: list):
     """
-    Print clean test plan output.
+    Print clean test plan output with honest status.
 
     Args:
         target: Target dict with endpoint, score, etc.
         payloads: List of payload values.
         requests: List of request dicts.
     """
-    print(f"\n{Fore.GREEN}{'=' * 50}{Style.RESET_ALL}")
-    print(
-        f"{Fore.GREEN}[+] Target: {target.get('endpoint', 'unknown')} Score: {target.get('score', 0)}{Style.RESET_ALL}"
-    )
+    print(f"\n{Fore.YELLOW}{'=' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}[+] Target: {target.get('endpoint', 'unknown')}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}Status: UNVERIFIED{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}Score: {target.get('score', 0)}{Style.RESET_ALL}")
 
     payload_str = ", ".join(str(p) for p in payloads)
-    print(f"{Fore.GREEN}[+] Payloads: {payload_str}{Style.RESET_ALL}")
+    print(f"\n{Fore.CYAN}Suggested Payloads:{Style.RESET_ALL} {payload_str}")
 
     request_strs = []
     for req in requests:
@@ -130,20 +133,25 @@ def print_test_plan(target: dict, payloads: list, requests: list):
         url = req.get("url", "")
         request_strs.append(f"{method} {url}")
 
-    print(f"{Fore.GREEN}[+] Requests: {' '.join(request_strs)}{Style.RESET_ALL}")
+    print(f"\n{Fore.CYAN}Test Requests:{Style.RESET_ALL}")
+    for req_str in request_strs:
+        print(f"  {req_str}")
 
     vuln = target.get("vulnerability", "IDOR")
     what_to_test = {
-        "IDOR": "Check if data changes across IDs",
-        "XSS": "Check for reflected input in response",
-        "SQLI": "Check for SQL error messages or timing differences",
-        "AUTH": "Check for authentication bypass",
-        "RCE": "Check for command injection in response",
+        "IDOR": "Compare responses - look for different user data",
+        "XSS": "Compare responses - look for reflected input",
+        "SQLI": "Compare responses - look for SQL errors",
+        "AUTH": "Compare responses - look for auth bypass",
+        "RCE": "Compare responses - look for command output",
     }
     print(
-        f"{Fore.GREEN}[+] What to test: {what_to_test.get(vuln, 'Check response for anomalies')}{Style.RESET_ALL}"
+        f"\n{Fore.CYAN}Next Step:{Style.RESET_ALL} {what_to_test.get(vuln, 'Compare responses for differences')}"
     )
-    print(f"{Fore.GREEN}{'=' * 50}{Style.RESET_ALL}")
+    print(
+        f"\n{Fore.YELLOW}This result is not confirmed. Manual verification required.{Style.RESET_ALL}"
+    )
+    print(f"{Fore.YELLOW}{'=' * 50}{Style.RESET_ALL}")
 
 
 def p_next_step(step: str):
