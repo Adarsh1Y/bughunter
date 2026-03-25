@@ -1,0 +1,72 @@
+[
+  {
+    "url": "https://example.com/api/orgs?id=123",
+    "method": "GET",
+    "params": {"id": "123"},
+    "headers": {
+      "cookie": "session=abc123"
+    }
+  },
+  {
+    "url": "https://example.com/api/users/profile",
+    "method": "GET",
+    "params": {},
+    "headers": {
+      "Authorization": "Bearer token123"
+    }
+  },
+  {
+    "url": "https://example.com/api/user?id=456",
+    "method": "POST",
+    "params": {"id": "456", "theme": "dark"},
+    "headers": {
+      "cookie": "session=xyz789"
+    }
+  },
+  {
+    "url": "https://example.com/static/app.js",
+    "method": "GET",
+    "params": {},
+    "headers": {}
+  },
+  {
+    "url": "https://example.com/css/styles.css",
+    "method": "GET",
+    "params": {},
+    "headers": {}
+  },
+  {
+    "url": "https://example.com/images/logo.png",
+    "method": "GET",
+    "params": {},
+    "headers": {}
+  },
+  {
+    "url": "https://example.com/api/orders",
+    "method": "GET",
+    "params": {},
+    "headers": {}
+  },
+  {
+    "url": "https://example.com/api/admin/users",
+    "method": "GET",
+    "params": {},
+    "headers": {
+      "Authorization": "Bearer admin123"
+    }
+  },
+  {
+    "url": "https://example.com/about",
+    "method": "GET",
+    "params": {},
+    "headers": {}
+  },
+  {
+    "url": "https://example.com/api/repos?user_id=789",
+    "method": "GET",
+    "params": {"user_id": "789"},
+    "headers": {
+      "cookie": "session=repo456"
+    }
+  }
+]
