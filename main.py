@@ -13,7 +13,10 @@ from core.cli import (
     run_focus_mode,
     run_retest_mode,
     run_attack_ready_mode,
+    run_live_mode,
 )
+
+from core.live_attack import run_live_attack_mode
 
 
 def parse_args():
@@ -61,8 +64,19 @@ Examples:
     )
 
     parser.add_argument(
-        "--urls", nargs="*", help="URLs to analyze (instead of interactive input)"
+        "--live",
+        "-l",
+        action="store_true",
+        help="Live mode (watch proxy traffic in real-time)",
     )
+
+    parser.add_argument(
+        "--live-attack",
+        action="store_true",
+        help="Live-attack mode (continuous monitoring with attack execution)",
+    )
+
+    parser.add_argument("--urls", nargs="*", help="URLs to analyze (instead of interactive input)")
 
     parser.add_argument("--input", "-i", help="Path to traffic.json file to analyze")
 
@@ -73,7 +87,11 @@ def main():
     """Main entry point."""
     args = parse_args()
 
-    if args.attack_ready:
+    if args.live_attack:
+        run_live_attack_mode()
+    elif args.live:
+        run_live_mode()
+    elif args.attack_ready:
         run_attack_ready_mode(input_file=args.input)
     elif args.retest is not None:
         endpoint = args.retest if isinstance(args.retest, str) else None

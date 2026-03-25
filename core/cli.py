@@ -89,14 +89,10 @@ def p_target(target: dict, num: int = None):
     risk = target.get("risk", "low").upper()
     confidence = target.get("confidence", 0)
 
-    risk_color = (
-        Fore.RED if risk == "HIGH" else Fore.YELLOW if risk == "MEDIUM" else Fore.GREEN
-    )
+    risk_color = Fore.RED if risk == "HIGH" else Fore.YELLOW if risk == "MEDIUM" else Fore.GREEN
 
     print(f"\n{prefix}{Fore.WHITE}{endpoint}{Style.RESET_ALL}")
-    print(
-        f"     {Fore.CYAN}Vulnerability:{Style.RESET_ALL} {Fore.YELLOW}{vuln}{Style.RESET_ALL}"
-    )
+    print(f"     {Fore.CYAN}Vulnerability:{Style.RESET_ALL} {Fore.YELLOW}{vuln}{Style.RESET_ALL}")
     print(f"     {Fore.CYAN}Risk:{Style.RESET_ALL} {risk_color}{risk}{Style.RESET_ALL}")
     print(f"     {Fore.CYAN}Confidence:{Style.RESET_ALL} {confidence:.0%}")
 
@@ -598,9 +594,7 @@ def run_auto_mode(urls: list = None, focus: bool = False, input_file: str = None
             p_success(f"Parsed {len(traffic_data)} requests from traffic file")
 
             filtered_data = filter_traffic(traffic_data)
-            p_info(
-                f"Filtered to {len(filtered_data)} relevant requests (API + authenticated)"
-            )
+            p_info(f"Filtered to {len(filtered_data)} relevant requests (API + authenticated)")
 
             if not filtered_data:
                 p_error("No relevant traffic after filtering.")
@@ -691,9 +685,7 @@ def run_focus_mode(urls: list = None, input_file: str = None):
             p_success(f"Parsed {len(traffic_data)} requests from traffic file")
 
             filtered_data = filter_traffic(traffic_data)
-            p_info(
-                f"Filtered to {len(filtered_data)} relevant requests (API + authenticated)"
-            )
+            p_info(f"Filtered to {len(filtered_data)} relevant requests (API + authenticated)")
 
             if not filtered_data:
                 p_error("No relevant traffic after filtering.")
@@ -823,9 +815,7 @@ def run_retest_mode(endpoint: str = None):
     from agents.fuzz import generate_payloads
     from agents.request_builder import build_requests
 
-    parsed = urlparse(
-        endpoint if "://" in endpoint else f"http://example.com{endpoint}"
-    )
+    parsed = urlparse(endpoint if "://" in endpoint else f"http://example.com{endpoint}")
     path = parsed.path
     params = parse_qs(parsed.query)
 
@@ -835,9 +825,7 @@ def run_retest_mode(endpoint: str = None):
     else:
         param_name = list(params.keys())[0]
         existing_values = params[param_name]
-        print(
-            f"{Fore.CYAN}Detected parameter: {param_name} = {existing_values}{Style.RESET_ALL}"
-        )
+        print(f"{Fore.CYAN}Detected parameter: {param_name} = {existing_values}{Style.RESET_ALL}")
         payloads = generate_payloads("IDOR", 3)
 
     section("RETEST TARGET")
@@ -848,17 +836,13 @@ def run_retest_mode(endpoint: str = None):
     for p in payloads:
         print(f"  {Fore.YELLOW}•{Style.RESET_ALL} {p}")
 
-    base_url = (
-        get_input("\nBase URL (default: https://target.com): ") or "https://target.com"
-    )
+    base_url = get_input("\nBase URL (default: https://target.com): ") or "https://target.com"
     requests = build_requests(base_url, path, param_name, payloads)
 
     section("READY-TO-TEST REQUESTS")
     print(format_requests(requests))
 
-    print(
-        f"\n{Fore.GREEN}[+] {len(requests)} requests ready for testing{Style.RESET_ALL}"
-    )
+    print(f"\n{Fore.GREEN}[+] {len(requests)} requests ready for testing{Style.RESET_ALL}")
     p_next_step("Copy requests to Burp Repeater and test")
 
 
@@ -957,9 +941,7 @@ def run_attack_ready_mode(input_file: str = None):
     """
     print(BANNER)
     print(f"\n{Fore.RED}{Style.BRIGHT}[*] ATTACK-READY MODE{Style.RESET_ALL}")
-    print(
-        f"{Fore.YELLOW}Safety: Confirmation required before any requests{Style.RESET_ALL}"
-    )
+    print(f"{Fore.YELLOW}Safety: Confirmation required before any requests{Style.RESET_ALL}")
 
     if not input_file:
         p_error("No input file provided. Use --input traffic.json")
@@ -971,9 +953,7 @@ def run_attack_ready_mode(input_file: str = None):
         p_success(f"Parsed {len(traffic_data)} requests from traffic file")
 
         filtered_data = filter_traffic(traffic_data)
-        p_info(
-            f"Filtered to {len(filtered_data)} relevant requests (API + authenticated)"
-        )
+        p_info(f"Filtered to {len(filtered_data)} relevant requests (API + authenticated)")
 
         if not filtered_data:
             p_error("No relevant traffic after filtering.")
@@ -1055,17 +1035,56 @@ def run_attack_ready_mode(input_file: str = None):
 
     if anomalies:
         for a in anomalies:
-            print(
-                f"\n{Fore.RED}{Style.BRIGHT}[!] Possible issue detected{Style.RESET_ALL}"
-            )
-            print(
-                f"{Fore.CYAN}Confidence:{Style.RESET_ALL} {a.get('confidence', 0.5):.0%}"
-            )
-            print(
-                f"{Fore.CYAN}Reason:{Style.RESET_ALL} {a.get('description', 'Unknown')}"
-            )
-            print(
-                f"\n{Fore.GREEN}Next step:{Style.RESET_ALL} Verify with another account"
-            )
+            print(f"\n{Fore.RED}{Style.BRIGHT}[!] Possible issue detected{Style.RESET_ALL}")
+            print(f"{Fore.CYAN}Confidence:{Style.RESET_ALL} {a.get('confidence', 0.5):.0%}")
+            print(f"{Fore.CYAN}Reason:{Style.RESET_ALL} {a.get('description', 'Unknown')}")
+            print(f"\n{Fore.GREEN}Next step:{Style.RESET_ALL} Verify with another account")
     else:
         p_info("No anomalies detected in responses.")
+
+
+def run_live_mode():
+    """Run in live mode - watch proxy traffic in real-time."""
+    from core.live_listener import (
+        listen_live,
+        check_proxy_available,
+        print_endpoint_detection,
+        LiveListener,
+    )
+
+    print(BANNER)
+    print(f"\n{Fore.CYAN}{Style.BRIGHT}[*] LIVE MODE{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}Safe mode: Observation only - no requests sent{Style.RESET_ALL}")
+    print()
+
+    if not check_proxy_available():
+        print(f"{Fore.YELLOW}[!] Proxy not available on 127.0.0.1:8080{Style.RESET_ALL}")
+        print(
+            f"{Fore.YELLOW}[!] Make sure Burp Suite is running with proxy enabled{Style.RESET_ALL}"
+        )
+        print()
+        print(f"{Fore.CYAN}Starting anyway - waiting for proxy...{Style.RESET_ALL}")
+        print(f"{Fore.CYAN}Press Ctrl+C to exit{Style.RESET_ALL}")
+        print()
+
+    listener = LiveListener()
+    listener.start()
+
+    try:
+        while listener.running:
+            time.sleep(0.5)
+    except KeyboardInterrupt:
+        print(f"\n{Fore.YELLOW}[!] Interrupted{Style.RESET_ALL}")
+    finally:
+        listener.stop()
+
+    results = listener.get_requests()
+
+    section("LIVE SESSION SUMMARY")
+    p_success(f"Captured {len(results)} endpoints")
+
+    if results:
+        for r in results:
+            print_endpoint_detection(r)
+
+    p_info("Session complete. Use --attack-ready to prepare actual tests.")
