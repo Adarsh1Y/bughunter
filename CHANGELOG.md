@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2024-03-25
+
+### Added
+
+- **Live Mode**: `--live` flag for real-time proxy traffic monitoring
+- **Live-Attack Mode**: `--live-attack` flag for continuous monitoring with attack execution
+- **Live Listener Module**: `core/live_listener.py` for real-time endpoint detection
+- **Live-Attack Module**: `core/live_attack.py` for unified live monitoring and attack
+- **Endpoint Queue**: `core/queue.py` for thread-safe priority queue with deduplication
+- **Architecture Diagram**: `docs/images/architecture.svg`
+- **Workflow Diagram**: `docs/images/workflow.svg`
+- **Scoring Matrix**: `docs/images/scoring.svg`
+
+### Features
+
+- Real-time endpoint detection from proxy traffic
+- Continuous monitoring with automatic attack suggestions
+- User confirmation before any attack execution
+- Thread-safe queue with duplicate prevention
+- Priority-based endpoint selection
+- Max attacks limit per session (default: 5)
+
+### CLI Modes
+
+- `python main.py --live` - Watch proxy traffic in real-time
+- `python main.py --live-attack` - Continuous monitoring with attack execution
+
 ## [1.0.0] - 2024-03-25
 
 ### Added
@@ -22,12 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Modern README**: Professional documentation with badges and examples
 - **Package Configuration**: `pyproject.toml` for easy installation
 - **Development Dependencies**: pytest, black, ruff, mypy configured
-
-### Features
-
-- `python main.py --attack-ready --input traffic.json` - Prepare and execute attacks safely
-- `python main.py --auto --input traffic.json` - Auto mode with traffic file
-- `python main.py --focus --input traffic.json` - Focus mode (top 1-2 targets)
 
 ### Safety
 
@@ -64,5 +85,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.1.0** (2024-03-25) - Live monitoring and live-attack modes
 - **v1.0.0** (2024-03-25) - Professional release with attack-ready mode
 - **v0.1.0** (2024-03-24) - Initial beta release

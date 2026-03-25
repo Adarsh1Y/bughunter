@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700">
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe"/>
+      <stop offset="100%" style="stop-color:#00f2fe"/>
+    </linearGradient>
+    <linearGradient id="agentsGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#43e97b"/>
+      <stop offset="100%" style="stop-color:#38f9d7"/>
+    </linearGradient>
+    <linearGradient id="dataGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="#1a1a2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white" text-anchor="middle">BugHunter Architecture</text>
+
+  <!-- MAIN.py Box -->
+  <rect x="350" y="55" width="200" height="60" rx="10" fill="url(#mainGrad)"/>
+  <text x="450" y="85" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">main.py</text>
+  <text x="450" y="100" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">CLI Entry Point</text>
+
+  <!-- Core Section -->
+  <rect x="50" y="150" width="300" height="280" rx="15" fill="#2d2d44" stroke="url(#coreGrad)" stroke-width="3"/>
+  <text x="200" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#4facfe" text-anchor="middle">CORE</text>
+
+  <!-- Core modules -->
+  <rect x="70" y="200" width="120" height="50" rx="8" fill="#3d3d54"/>
+  <text x="130" y="225" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">cli.py</text>
+  <text x="130" y="240" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">CLI Modes</text>
+
+  <rect x="210" y="200" width="120" height="50" rx="8" fill="#3d3d54"/>
+  <text x="270" y="225" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">parser.py</text>
+  <text x="270" y="240" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Traffic Parsing</text>
+
+  <rect x="70" y="265" width="120" height="50" rx="8" fill="#3d3d54"/>
+  <text x="130" y="290" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">scorer.py</text>
+  <text x="130" y="305" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Endpoint Scoring</text>
+
+  <rect x="210" y="265" width="120" height="50" rx="8" fill="#3d3d54"/>
+  <text x="270" y="290" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">queue.py</text>
+  <text x="270" y="305" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Live Queue</text>
+
+  <rect x="70" y="330" width="120" height="50" rx="8" fill="#3d3d54"/>
+  <text x="130" y="355" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">live_listener.py</text>
+  <text x="130" y="370" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Real-time</text>
+
+  <rect x="210" y="330" width="120" height="50" rx="8" fill="#3d3d54"/>
+  <text x="270" y="355" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">live_attack.py</text>
+  <text x="270" y="370" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Unified Mode</text>
+
+  <rect x="70" y="395" width="260" height="25" rx="5" fill="#2a2a40"/>
+  <text x="200" y="412" font-family="Arial, sans-serif" font-size="10" fill="#888" text-anchor="middle">burp.py | llm.py | cache.py | logger.py | diff.py</text>
+
+  <!-- Agents Section -->
+  <rect x="380" y="150" width="250" height="280" rx="15" fill="#2d2d44" stroke="url(#agentsGrad)" stroke-width="3"/>
+  <text x="505" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#43e97b" text-anchor="middle">AGENTS</text>
+
+  <!-- Analysis Agent -->
+  <rect x="400" y="200" width="210" height="45" rx="8" fill="#3d3d54"/>
+  <text x="505" y="220" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">analysis/analyzer.py</text>
+  <text x="505" y="235" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">URL &amp; Vulnerability Analysis</text>
+
+  <!-- Strategy Agent -->
+  <rect x="400" y="255" width="210" height="45" rx="8" fill="#3d3d54"/>
+  <text x="505" y="275" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">strategy/strategy.py</text>
+  <text x="505" y="290" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Target Prioritization</text>
+
+  <!-- Fuzz Agent -->
+  <rect x="400" y="310" width="210" height="45" rx="8" fill="#3d3d54"/>
+  <text x="505" y="330" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">fuzz/fuzz.py</text>
+  <text x="505" y="345" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Payload Generation</text>
+
+  <!-- Response Agent -->
+  <rect x="400" y="365" width="210" height="55" rx="8" fill="#3d3d54"/>
+  <text x="505" y="385" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">response/analyzer.py</text>
+  <text x="505" y="400" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Anomaly Detection</text>
+  <text x="505" y="412" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">LLM Analysis</text>
+
+  <!-- Data Section -->
+  <rect x="660" y="150" width="200" height="280" rx="15" fill="#2d2d44" stroke="url(#dataGrad)" stroke-width="3"/>
+  <text x="760" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f093fb" text-anchor="middle">DATA</text>
+
+  <!-- config -->
+  <rect x="680" y="200" width="160" height="45" rx="8" fill="#3d3d54"/>
+  <text x="760" y="220" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">config/</text>
+  <text x="760" y="235" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">settings.json</text>
+
+  <!-- data/output -->
+  <rect x="680" y="255" width="160" height="60" rx="8" fill="#3d3d54"/>
+  <text x="760" y="275" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">data/output/</text>
+  <text x="760" y="290" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">requests.json</text>
+  <text x="760" y="302" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">responses.json</text>
+  <text x="760" y="314" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">session.json</text>
+
+  <!-- logs -->
+  <rect x="680" y="325" width="160" height="40" rx="8" fill="#3d3d54"/>
+  <text x="760" y="345" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">logs/</text>
+  <text x="760" y="358" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">activity.log</text>
+
+  <!-- External -->
+  <rect x="680" y="375" width="160" height="45" rx="8" fill="#3d3d54" stroke="#fa709a" stroke-width="2"/>
+  <text x="760" y="395" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fa709a" text-anchor="middle">EXTERNAL</text>
+  <text x="760" y="410" font-family="Arial, sans-serif" font-size="9" fill="#aaa" text-anchor="middle">Ollama | Burp Suite</text>
+
+  <!-- Connection Lines -->
+  <path d="M350 85 L400 85" stroke="url(#mainGrad)" stroke-width="3"/>
+  <path d="M200 150 L200 145" stroke="url(#coreGrad)" stroke-width="2"/>
+  <path d="M380 200 L400 200" stroke="url(#agentsGrad)" stroke-width="2"/>
+  <path d="M505 150 L505 145" stroke="url(#agentsGrad)" stroke-width="2"/>
+  <path d="M660 200 L680 200" stroke="url(#dataGrad)" stroke-width="2"/>
+  <path d="M630 200 L660 200" stroke="white" stroke-width="1" stroke-dasharray="5,5" opacity="0.3"/>
+
+  <!-- Legend -->
+  <rect x="50" y="460" width="800" height="220" rx="15" fill="#2d2d44"/>
+
+  <!-- CLI Modes -->
+  <text x="450" y="490" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">CLI MODES</text>
+
+  <rect x="70" y="510" width="150" height="40" rx="8" fill="url(#mainGrad)"/>
+  <text x="145" y="530" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">--auto</text>
+  <text x="145" y="542" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Automatic pipeline</text>
+
+  <rect x="240" y="510" width="150" height="40" rx="8" fill="url(#coreGrad)"/>
+  <text x="315" y="530" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">--focus</text>
+  <text x="315" y="542" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Top 1-2 targets</text>
+
+  <rect x="410" y="510" width="150" height="40" rx="8" fill="url(#agentsGrad)"/>
+  <text x="485" y="530" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">--attack-ready</text>
+  <text x="485" y="542" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Safe execution</text>
+
+  <rect x="580" y="510" width="150" height="40" rx="8" fill="url(#dataGrad)"/>
+  <text x="655" y="530" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">--live</text>
+  <text x="655" y="542" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Real-time watch</text>
+
+  <rect x="70" y="560" width="200" height="40" rx="8" fill="#764ba2"/>
+  <text x="170" y="580" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">--live-attack</text>
+  <text x="170" y="592" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Continuous + execution</text>
+
+  <rect x="290" y="560" width="150" height="40" rx="8" fill="#fee140"/>
+  <text x="365" y="580" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1a1a2e" text-anchor="middle">--retest</text>
+  <text x="365" y="592" font-family="Arial, sans-serif" font-size="9" fill="#1a1a2e" text-anchor="middle">Quick retest</text>
+
+  <rect x="460" y="560" width="200" height="40" rx="8" fill="#4facfe"/>
+  <text x="560" y="580" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">--input FILE</text>
+  <text x="560" y="592" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Load from JSON</text>
+
+  <rect x="680" y="560" width="130" height="40" rx="8" fill="#43e97b"/>
+  <text x="745" y="580" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">default</text>
+  <text x="745" y="592" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Interactive</text>
+</svg>

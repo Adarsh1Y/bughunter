@@ -21,6 +21,20 @@ BugHunter is a powerful CLI tool for security researchers and bug bounty hunters
 | **Low RAM Mode** | Optimized for resource-constrained environments |
 | **Session Management** | Multi-user session storage and comparison |
 | **Report Generation** | Export findings in JSON or Markdown format |
+| **Live Monitoring** | Real-time proxy traffic analysis |
+| **Live-Attack Mode** | Continuous monitoring with attack execution |
+
+## 📊 Architecture
+
+![Architecture](docs/images/architecture.svg)
+
+## ⚡ Workflow
+
+![Workflow](docs/images/workflow.svg)
+
+## 📈 Scoring System
+
+![Scoring](docs/images/scoring.svg)
 
 ## 📦 Installation
 
@@ -70,6 +84,20 @@ python main.py --auto --urls https://target.com/api/users?id=1
 python main.py --auto --urls https://target.com/api/users?id=1 https://target.com/api/orders?id=123
 ```
 
+### Live Mode (Real-time Monitoring)
+
+```bash
+# Watch proxy traffic in real-time
+python main.py --live
+```
+
+### Live-Attack Mode (Continuous + Execution)
+
+```bash
+# Continuous monitoring with attack execution
+python main.py --live-attack
+```
+
 ### Attack-Ready Mode
 
 ```bash
@@ -87,6 +115,12 @@ python main.py --focus --input traffic.json
 
 ```bash
 python main.py --retest "/api/users?id=1"
+```
+
+### Load Traffic from File
+
+```bash
+python main.py --auto --input traffic.json
 ```
 
 ## ⚙️ Configuration
@@ -128,15 +162,19 @@ bughunter/
 │   ├── parser.py              # Traffic parsing
 │   ├── scorer.py              # Endpoint scoring
 │   ├── orchestrator.py        # Workflow orchestration
-│   └── burp.py                # Burp integration
+│   ├── burp.py                # Burp integration
+│   ├── live_listener.py       # Real-time proxy monitoring
+│   ├── live_attack.py         # Unified live-attack mode
+│   └── queue.py               # Thread-safe endpoint queue
 ├── config/                     # Configuration
 │   └── settings.json          # Runtime settings
 ├── data/output/                # Generated output
 │   ├── requests.json          # Generated requests
 │   ├── responses.json          # Captured responses
 │   └── session.json            # Session data
-├── tests/                      # Test suite
 ├── docs/                       # Documentation
+│   └── images/                 # Diagrams and images
+├── tests/                      # Test suite
 ├── main.py                     # Entry point
 └── pyproject.toml              # Package configuration
 ```
@@ -150,21 +188,6 @@ BugHunter includes multiple safety mechanisms:
 - **Request Limits**: Maximum requests per session
 - **Dry Run Mode**: Preview requests without execution
 - **Proxy Required**: No direct traffic - must use Burp proxy
-
-## 📊 Workflow
-
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   INPUT     │ ──▶ │  ANALYSIS   │ ──▶ │  STRATEGY   │
-│ (URLs/File) │     │ (Detection) │     │(Prioritize) │
-└─────────────┘     └─────────────┘     └─────────────┘
-                                                 │
-                                                 ▼
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   REPORT    │ ◀── │  ANALYSIS   │ ◀── │  EXECUTION  │
-│ (Findings)  │     │ (Response)  │     │ (Requests)  │
-└─────────────┘     └─────────────┘     └─────────────┘
-```
 
 ## 🧪 Testing
 
